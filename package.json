@@ -1,0 +1,14 @@
+{
+  "name": "nextedge-hair",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace @nextedge/web",
+    "dev:admin": "npm run dev --workspace @nextedge/admin",
+    "build": "npm run build --workspace @nextedge/web && npm run build --workspace @nextedge/admin",
+    "lint": "npm run lint --workspace @nextedge/web && npm run lint --workspace @nextedge/admin"
+  }
+}
