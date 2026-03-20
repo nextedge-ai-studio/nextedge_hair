@@ -1,51 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #faf8f5;
-  --bg-secondary: #f5f0e8;
-  --text-primary: #1c1c1c;
-  --text-secondary: #4a4a4a;
-  --text-muted: #8a8a8a;
-  --brand-primary: #b8860b;
-  --brand-accent: #d4af37;
-  --border-strong: #d4af37;
-  --border-subtle: #e8e0d5;
-  --focus-ring: #1c1c1c;
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --shadow-elegant: 0 8px 30px rgba(0, 0, 0, 0.08);
+  /* High Fashion Editorial Palette */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f5; /* Cool light gray for contrast */
+  --bg-dark: #121212;
+  
+  --text-primary: #000000;
+  --text-secondary: #3f3f46;
+  --text-muted: #a1a1aa;
+  --text-light: #ffffff;
+  
+  --brand-primary: #000000;
+  --brand-accent: #9ca3af; /* Silver/gray tone */
+  
+  --border-strong: #000000;
+  --border-subtle: #e4e4e7;
+  
+  /* Strict elegant shadows */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-elegant: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  font-family: var(--font-body), sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(212, 175, 55, 0.11), transparent 28%),
-    linear-gradient(180deg, #faf8f5 0%, #f7f3ee 54%, #faf8f5 100%);
+  font-family: var(--font-body), 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display), serif;
-  letter-spacing: -0.02em;
+/* Typography Overrides */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), "Times New Roman", Times, serif;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+
+.text-balance {
+  text-wrap: balance;
 }
 
 ::selection {
-  background: rgba(212, 175, 55, 0.24);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+/* Animations & Utilities */
+.mix-blend-difference {
+  mix-blend-mode: difference;
+}
+
+.clip-image {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.hover-clip:hover .clip-image {
+  clip-path: polygon(5% 5%, 95% 5%, 95% 95%, 5% 95%);
+}
+
+.image-reveal {
+  animation: revealImage 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes revealImage {
+  0% {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.3s; }
+.stagger-3 { animation-delay: 0.5s; }
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

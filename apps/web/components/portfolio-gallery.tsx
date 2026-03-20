@@ -40,7 +40,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
             <div className="space-y-3 p-4">
               <div className="flex items-center justify-between gap-3">
                 <h4 className="text-2xl text-[color:var(--text-primary)]">{item.title}</h4>
-                <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--brand-primary)]">{item.tag}</span>
+                <span className="text-sm uppercase tracking-[0.2em] text-[color:var(--brand-primary)]">{item.tag}</span>
               </div>
               <p className="text-sm leading-7 text-[color:var(--text-secondary)]">{item.caption}</p>
             </div>
@@ -68,7 +68,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">作品細節</p>
+                    <p className="text-sm uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">作品細節</p>
                     <h3 className="mt-3 text-4xl text-[color:var(--text-primary)]">{activeItem.title}</h3>
                   </div>
                   <button
@@ -80,7 +80,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
                     ×
                   </button>
                 </div>
-                <div className="inline-flex border border-[color:var(--border-subtle)] px-3 py-1 text-xs uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <div className="inline-flex border border-[color:var(--border-subtle)] px-3 py-1 text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   {activeItem.tag}
                 </div>
                 <p className="text-sm leading-8 text-[color:var(--text-secondary)]">{activeItem.caption}</p>

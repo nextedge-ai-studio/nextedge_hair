@@ -1,40 +1,40 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import type { Region } from "@nextedge/schemas";
 
-export function RegionCard({ region }: { region: Region }) {
+export function RegionCard({ region, index }: { region: Region; index?: number }) {
   return (
-    <Link
-      href={`/salons?region=${region.id}`}
-      className="group block overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--bg-primary)] shadow-[var(--shadow-soft)] transition duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-elegant)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--focus-ring)]"
-    >
-      <div
-        className="h-60 bg-cover bg-center transition duration-700 group-hover:scale-[1.02]"
-        style={{ backgroundImage: `linear-gradient(180deg, rgba(28,28,28,0.12), rgba(28,28,28,0.38)), url(${region.heroImage})` }}
-      />
-      <div className="space-y-4 p-6">
-        <div className="flex items-center justify-between">
-          <h3 className="font-[family-name:var(--font-display)] text-3xl text-[color:var(--text-primary)]">
+    <div className={`group flex flex-col hover-clip ${index !== undefined && index % 2 === 1 ? 'md:mt-32' : ''}`}>
+      <Link href={`/salons?region=${region.id}`} className="relative block overflow-hidden bg-black aspect-[3/4] sm:aspect-[4/5]">
+        <img 
+          src={region.heroImage} 
+          alt={region.name} 
+          className="clip-image h-full w-full object-cover opacity-80 transition hover:opacity-100"
+        />
+        <div className="absolute inset-x-0 bottom-0 p-8 flex justify-between items-end opacity-0 transition-opacity duration-700 group-hover:opacity-100 bg-gradient-to-t from-black/80 to-transparent">
+          <span className="font-display text-2xl text-white italic tracking-wider">
+            Explore
+          </span>
+          <ArrowRight className="h-6 w-6 text-white" />
+        </div>
+      </Link>
+      
+      <div className="mt-8 flex items-start justify-between">
+        <div>
+          <h3 className="font-display text-4xl uppercase text-black">
             {region.name}
           </h3>
-          <span className="text-xs uppercase tracking-[0.28em] text-[color:var(--brand-primary)]">
-            {region.salonCount} 間精選
-          </span>
+          <div className="mt-4 flex flex-wrap gap-2 text-sm text-gray-500 font-light">
+            {region.featuredDistricts.slice(0, 3).map(d => (
+              <span key={d} className="after:content-[','] last:after:content-['']">{d}</span>
+            ))}
+          </div>
         </div>
-        <p className="max-w-[44ch] text-sm leading-6 text-[color:var(--text-secondary)]">
-          {region.description}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {region.featuredDistricts.map((district) => (
-            <span
-              key={district}
-              className="border border-[color:var(--border-subtle)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
-            >
-              {district}
-            </span>
-          ))}
-        </div>
+        <span className="text-sm font-semibold text-black uppercase tracking-[0.2em] border-b border-black pb-1 lowercase">
+          {region.salonCount} salons
+        </span>
       </div>
-    </Link>
+    </div>
   );
 }

@@ -38,6 +38,33 @@ const rawData = {
       featuredDistricts: ["東區", "中西區", "安平區"],
       salonCount: 7,
     },
+    {
+      id: "kaohsiung",
+      name: "高雄市",
+      description: "展現南部熱情與前衛指標，集結了時髦剪裁與高對比染髮設計。",
+      heroImage:
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1200&q=80",
+      featuredDistricts: ["左營區", "鼓山區", "新興區"],
+      salonCount: 15,
+    },
+    {
+      id: "taoyuan",
+      name: "桃園市",
+      description: "新生代商圈崛起，聚集極簡韓系與高質感平價沙龍。",
+      heroImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80",
+      featuredDistricts: ["中壢區", "桃園區", "八德區"],
+      salonCount: 11,
+    },
+    {
+      id: "hsinchu",
+      name: "新竹市",
+      description: "高消費力群聚，訴求高效能護理與持久性結構燙髮。",
+      heroImage:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=80",
+      featuredDistricts: ["東區", "北區", "竹北市"],
+      salonCount: 8,
+    },
   ],
   salons: [
     {
@@ -562,6 +589,22 @@ const rawData = {
     },
   ],
 };
+
+// Dynamically expand portfolios to demonstrate scrolling
+rawData.salons.forEach(salon => {
+  salon.stylists.forEach(stylist => {
+    const originalPortfolio = [...stylist.portfolio];
+    // Duplicate 3 times to get 6-12 items total per designer
+    for (let i = 1; i <= 3; i++) {
+       originalPortfolio.forEach(item => {
+         stylist.portfolio.push({
+           ...item,
+           id: `${item.id}-copy-${i}`
+         });
+       });
+    }
+  });
+});
 
 const parsed = platformDataSchema.parse(rawData);
 

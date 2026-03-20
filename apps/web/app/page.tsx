@@ -1,187 +1,149 @@
 import Link from "next/link";
-import { regions, salons } from "@nextedge/mock-data";
+import { regions } from "@nextedge/mock-data";
 
 import { Header } from "@/components/header";
-import { RegionCard } from "@/components/region-card";
-import { formatTwd } from "@/lib/utils";
-
-const curatedStats = [
-  { label: "精選店家", value: "39+" },
-  { label: "可瀏覽設計師", value: "120+" },
-  { label: "可預約時段", value: "每日更新" },
-];
-
-const featureRows = [
-  {
-    title: "先用地區與風格縮小範圍",
-    body: "從台北、新北到台中、台南，先看生活圈，再用風格標籤快速篩選。",
-  },
-  {
-    title: "直接看設計師空檔",
-    body: "每位設計師都顯示最近可預約時段，不用先私訊才知道有沒有位子。",
-  },
-  {
-    title: "作品與價格放在同一頁",
-    body: "看完作品集，再一起比對服務內容、價位與時間，做決定比較快。",
-  },
-];
-
-const featuredSalons = salons.slice(0, 2);
-const featuredPrice = featuredSalons[0]?.stylists[0]?.pricing[0];
+import { HeroSearch } from "@/components/hero-search";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-white">
       <Header />
 
-      <section className="border-b border-[color:var(--border-subtle)]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-24">
-          <div className="flex flex-col justify-between">
-            <div className="space-y-8">
-              <p className="text-xs uppercase tracking-[0.36em] text-[color:var(--brand-primary)]">
-                台灣沙龍選店指南
+      {/* Hero Section: Full Screen Minimal Editorial */}
+      <section className="relative h-screen min-h-[800px] w-full pt-20">
+        <div className="absolute inset-x-0 bottom-0 top-0 overflow-hidden">
+          <div 
+            className="h-full w-full bg-cover bg-[center_top] image-reveal"
+            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=2000&auto=format&fit=crop')` }}
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+        
+        <div className="absolute inset-0 flex flex-col justify-end px-6 pb-20 lg:px-12">
+          <div className="flex flex-col-reverse items-start justify-between gap-12 lg:flex-row lg:items-end">
+            <div className="w-full lg:w-1/2 fade-up stagger-1 drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+              <h1 className="font-display text-[12vw] leading-[0.85] text-white lg:text-[140px] tracking-tighter">
+                ELEVATED<br/>
+                <span className="italic font-light text-[#D8CBB6]">BEAUTY.</span>
+              </h1>
+              <p className="mt-8 max-w-lg text-lg font-light leading-relaxed tracking-widest text-[#F5F2EC]">
+                全台最具指標性的高端美髮沙龍探索平台。<br/>在城市中尋找最懂您的質感設計師。
               </p>
-              <div className="space-y-6">
-                <h1 className="max-w-[12ch] text-6xl leading-none text-[color:var(--text-primary)] sm:text-7xl lg:text-8xl">
-                  先看作品，
-                  <br />
-                  再決定把頭髮交給誰。
-                </h1>
-                <p className="max-w-[48ch] text-base leading-8 text-[color:var(--text-secondary)] sm:text-lg">
-                  霧鏡 MUIR 把地區、店家、設計師、空檔、作品集與價位整理成一條順的瀏覽路線。先找到喜歡的風格，再決定要不要預約。
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/salons?region=taipei-city"
-                  className="inline-flex min-h-11 items-center justify-center bg-[color:var(--text-primary)] px-6 text-sm uppercase tracking-[0.24em] text-[color:var(--bg-primary)] transition hover:bg-[color:var(--brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--focus-ring)]"
-                >
-                  直接看店家
-                </Link>
-                <Link
-                  href="/login"
-                  className="inline-flex min-h-11 items-center justify-center border border-[color:var(--border-strong)] px-6 text-sm uppercase tracking-[0.24em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--brand-accent)] hover:text-[color:var(--bg-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--focus-ring)]"
-                >
-                  登入後預約
-                </Link>
-              </div>
             </div>
-            <div className="mt-12 grid gap-6 border-t border-[color:var(--border-subtle)] pt-8 sm:grid-cols-3">
-              {curatedStats.map((stat) => (
-                <div key={stat.label}>
-                  <p className="text-3xl text-[color:var(--text-primary)] sm:text-4xl">{stat.value}</p>
-                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[color:var(--text-muted)]">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--bg-secondary)] p-3 shadow-[var(--shadow-elegant)]">
-            <div
-              className="min-h-[640px] bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "linear-gradient(180deg, rgba(28,28,28,0.08), rgba(28,28,28,0.38)), url(https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1400&q=80)",
-              }}
-            />
-            <div className="absolute inset-x-8 bottom-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="border border-[color:rgba(232,224,213,0.5)] bg-[color:rgba(250,248,245,0.9)] p-6 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">本週主打</p>
-                <h2 className="mt-3 text-3xl text-[color:var(--text-primary)]">{featuredSalons[0]?.name}</h2>
-                <p className="mt-3 text-sm leading-7 text-[color:var(--text-secondary)]">
-                  {featuredSalons[0]?.description}
-                </p>
-              </div>
-              <div className="border border-[color:rgba(232,224,213,0.5)] bg-[color:rgba(28,28,28,0.88)] p-6 text-[color:var(--bg-primary)] backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-accent)]">起始價</p>
-                <p className="mt-3 font-[family-name:var(--font-display)] text-5xl">
-                  {featuredPrice ? formatTwd(featuredPrice.priceTwd) : "TWD 0"}
-                </p>
-                <p className="mt-3 text-sm leading-7 text-[color:rgba(250,248,245,0.78)]">
-                  剪髮、染髮與特殊造型服務透明列出，不需要反覆私訊確認。
-                </p>
-              </div>
+            
+            <div className="w-full max-w-md bg-white p-8 shadow-2xl fade-up stagger-2 lg:mb-10 lg:w-[450px]">
+              <p className="mb-6 text-sm font-medium uppercase tracking-[0.2em] text-gray-400">
+                L'Art de la Coiffure
+              </p>
+              <h2 className="mb-8 font-display text-4xl leading-tight text-black">
+                尋找塑造您獨特美學的頂尖工匠
+              </h2>
+              <HeroSearch />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-[color:var(--brand-primary)]">平台特色</p>
-            <h2 className="mt-4 text-5xl text-[color:var(--text-primary)]">不是一直滑，而是更快挑到對的人。</h2>
+      {/* Philosophy Section */}
+      <section className="bg-[#fcfbf9] border-t border-black/5">
+        <div className="mx-auto max-w-[1400px] px-6 py-24 lg:px-12 lg:py-40">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+            
+            {/* Left Image Anchor */}
+            <div className="lg:col-span-5 fade-up stagger-1">
+              <div className="aspect-[3/4] sm:aspect-[4/5] w-full overflow-hidden bg-gray-200">
+                <img 
+                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1500&auto=format&fit=crop" 
+                  alt="Editorial Philosophy" 
+                  className="h-full w-full object-cover grayscale transition duration-1000 hover:scale-105 hover:grayscale-0"
+                />
+              </div>
+            </div>
+
+            {/* Right Typography Content */}
+            <div className="lg:col-span-7 flex flex-col justify-center fade-up stagger-2">
+              <p className="text-sm font-bold uppercase tracking-[0.4em] text-gray-400 mb-8">
+                The Philosophy
+              </p>
+              
+              <h3 className="text-4xl leading-[1.4] tracking-[0.1em] text-black sm:text-5xl lg:text-[56px] font-light">
+                這不僅是髮型設計，<br />
+                更是為您量身打造的<br />
+                <span className="italic font-serif text-gray-500 tracking-widest">個人建築美學。</span>
+              </h3>
+              
+              <div className="mt-12 flex flex-col sm:flex-row gap-8 sm:gap-16 items-start border-t border-black/10 pt-12">
+                <p className="text-base md:text-lg font-light leading-loose tracking-[0.15em] text-gray-600 max-w-lg">
+                  我們相信每一縷髮絲都蘊藏著獨特的結構語言。結合頂級匠藝與細膩品味，在城市的脈絡中，我們為您篩選出最具指標性的質感沙龍，重新定義屬於您的自信輪廓。
+                </p>
+                
+                <Link href="/salons" className="group inline-flex items-center gap-4 text-xs font-bold uppercase tracking-[0.2em] hover:opacity-60 transition-opacity mt-4 lg:mt-0 lg:ml-auto">
+                探索精選版圖
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-black transition-transform group-hover:bg-black group-hover:text-white">
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+              </div>
+            </div>
+
           </div>
-          <p className="max-w-[46ch] text-sm leading-7 text-[color:var(--text-secondary)]">
-            目前版本先聚焦在公開瀏覽主線：選地區、看店家、看設計師、看空檔、看作品與價格；只有預約時才登入。
-          </p>
-        </div>
-        <div className="grid gap-px overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--border-subtle)] lg:grid-cols-3">
-          {featureRows.map((feature) => (
-            <article key={feature.title} className="bg-[color:var(--bg-primary)] p-8">
-              <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">01</p>
-              <h3 className="mt-5 text-3xl text-[color:var(--text-primary)]">{feature.title}</h3>
-              <p className="mt-4 text-sm leading-7 text-[color:var(--text-secondary)]">{feature.body}</p>
-            </article>
-          ))}
         </div>
       </section>
 
-      <section id="regions" className="border-y border-[color:var(--border-subtle)] bg-[color:var(--bg-secondary)]">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      {/* Editorial Regions Showcase */}
+      <section className="bg-gray-50 py-32">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+          <div className="mb-20 grid grid-cols-1 items-end gap-10 md:grid-cols-2">
             <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-[color:var(--brand-primary)]">地區選店</p>
-              <h2 className="mt-4 text-5xl text-[color:var(--text-primary)]">先選城市，再慢慢看風格。</h2>
+              <p className="text-sm font-bold uppercase tracking-[0.3em] text-gray-400">Locations</p>
+              <h2 className="mt-4 font-display text-6xl text-black md:text-8xl">DESTINATION</h2>
             </div>
-            <p className="max-w-[46ch] text-sm leading-7 text-[color:var(--text-secondary)]">
-              進入後先選地區，再以沙龍卡片快速看氛圍、評分、標籤與最近可預約時段。
+            <p className="max-w-md text-lg font-light leading-relaxed text-gray-600 md:justify-self-end">
+              我們嚴選的頂級沙龍皆坐落於最具影響力的文化樞紐。請選擇您的地區以開始探索。
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {regions.map((region) => (
-              <RegionCard key={region.id} region={region} />
+
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:gap-20">
+            {regions.slice(0, 4).map((region, idx) => (
+              <div 
+                key={region.id} 
+                className={`group flex flex-col hover-clip ${idx % 2 === 1 ? 'md:mt-32' : ''}`}
+              >
+                <Link href={`/salons`} className="relative block overflow-hidden bg-black aspect-[3/4] sm:aspect-[4/5]">
+                  <img 
+                    src={region.heroImage} 
+                    alt={region.name} 
+                    className="clip-image h-full w-full object-cover opacity-80 transition hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-[50ms] group-hover:opacity-100">
+                    <span className="font-display text-4xl text-white italic tracking-wider px-8 py-4 border border-white/30 backdrop-blur-sm bg-black/20">
+                      探索
+                    </span>
+                  </div>
+                </Link>
+                
+                <div className="mt-8 flex items-start justify-between">
+                  <div>
+                    <h3 className="font-display text-4xl uppercase text-black">
+                      {region.name}
+                    </h3>
+                    <div className="mt-4 flex flex-wrap gap-2 text-sm text-gray-500">
+                      {region.featuredDistricts.slice(0, 3).map(d => (
+                        <span key={d} className="after:content-[','] last:after:content-['']">{d}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <span className="text-sm font-semibold text-black uppercase tracking-widest border-b border-black pb-1">
+                    {region.salonCount} Salons
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="collections" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-[color:var(--brand-primary)]">編輯精選</p>
-            <h2 className="mt-4 text-5xl text-[color:var(--text-primary)]">像看風格誌一樣挑店，不用盲約。</h2>
-          </div>
-          <Link
-            href="/regions"
-            className="inline-flex min-h-11 items-center justify-center border border-[color:var(--border-strong)] px-6 text-sm uppercase tracking-[0.24em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--brand-accent)] hover:text-[color:var(--bg-primary)]"
-          >
-            開始瀏覽
-          </Link>
-        </div>
-        <div className="grid gap-8 lg:grid-cols-2">
-          {featuredSalons.map((salon) => (
-            <article key={salon.id} className="overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--bg-primary)]">
-              <div
-                className="h-80 bg-cover bg-center"
-                style={{ backgroundImage: `linear-gradient(180deg, rgba(28,28,28,0.1), rgba(28,28,28,0.32)), url(${salon.coverImage})` }}
-              />
-              <div className="space-y-4 p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <h3 className="text-4xl text-[color:var(--text-primary)]">{salon.name}</h3>
-                  <span className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">{salon.district}</span>
-                </div>
-                <p className="text-sm leading-7 text-[color:var(--text-secondary)]">{salon.description}</p>
-                <Link href={`/salons/${salon.slug}`} className="inline-flex min-h-11 items-center text-sm uppercase tracking-[0.24em] text-[color:var(--text-primary)] underline decoration-[color:var(--brand-primary)] underline-offset-8">
-                  看完整頁面
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

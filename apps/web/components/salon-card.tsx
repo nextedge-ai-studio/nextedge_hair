@@ -1,76 +1,68 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 import type { Region, Salon } from "@nextedge/schemas";
+import { getEarliestAvailableLabel, getStartingPrice } from "@/lib/discovery";
+import { formatTwd } from "@/lib/utils";
 
 export function SalonCard({ salon, region }: { salon: Salon; region?: Region }) {
-  const firstStylist = salon.stylists[0];
-  const previewShots = firstStylist.portfolio.slice(0, 3);
+  const startingPrice = getStartingPrice(salon);
+  const earliest = getEarliestAvailableLabel(salon);
 
   return (
     <Link
       href={`/salons/${salon.slug}`}
-      className="group grid overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--bg-primary)] shadow-[var(--shadow-soft)] transition duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-elegant)] lg:grid-cols-[1.1fr_0.9fr]"
+      className="group block border-t border-black py-8 transition-colors hover:bg-black hover:text-white"
     >
-      <div
-        className="min-h-72 bg-cover bg-center"
-        style={{ backgroundImage: `linear-gradient(180deg, rgba(28,28,28,0.1), rgba(28,28,28,0.32)), url(${salon.coverImage})` }}
-      />
-      <div className="flex flex-col justify-between p-6 sm:p-8">
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">
-            <span>{region?.name ?? salon.regionId}</span>
-            <span className="text-[color:var(--border-strong)]">/</span>
-            <span>{salon.district}</span>
+      <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12 md:gap-12 px-4 transition-colors">
+        
+        {/* Sequence & Vibe (Left Col) */}
+        <div className="md:col-span-2 flex flex-col justify-between h-full">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] opacity-50">
+            {salon.district}
+          </p>
+          <p className="mt-auto text-sm uppercase tracking-[0.3em] font-light hidden md:block">
+            {salon.vibe}
+          </p>
+        </div>
+
+        {/* Huge Title & Tags (Mid Col) */}
+        <div className="md:col-span-6 flex flex-col justify-center">
+          <h3 className="font-display text-4xl leading-none uppercase tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl group-hover:italic transition-all duration-[50ms]">
+            {salon.name}
+          </h3>
+          <div className="mt-6 flex flex-wrap gap-4 text-sm font-light uppercase tracking-widest opacity-60">
+            {salon.tags.slice(0, 3).map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
           </div>
-          <div>
-            <h3 className="font-[family-name:var(--font-display)] text-4xl text-[color:var(--text-primary)]">
-              {salon.name}
-            </h3>
-            <p className="mt-2 text-sm uppercase tracking-[0.18em] text-[color:var(--text-muted)]">
-              {salon.vibe}
+        </div>
+
+        {/* Pricing & Availability (Right Col) */}
+        <div className="md:col-span-4 flex flex-col justify-between items-start md:items-end text-left md:text-right h-full">
+          <div className="space-y-1">
+            <p className="font-display text-2xl">{formatTwd(startingPrice)}</p>
+            <p className="text-sm font-medium tracking-widest opacity-60 border-b border-current pb-1 inline-block">
+              起步價格
             </p>
           </div>
-          <p className="max-w-[48ch] text-sm leading-7 text-[color:var(--text-secondary)]">
-            {salon.description}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {salon.tags.map((tag) => (
-              <span
-                key={tag}
-                className="border border-[color:var(--border-subtle)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
-              >
-                {tag}
-              </span>
-            ))}
+          
+          <div className="mt-8 flex items-center gap-4">
+            <div className="text-left md:text-right">
+              <p className="text-sm uppercase tracking-[0.2em] opacity-50">最近空檔</p>
+              <p className="text-sm font-medium mt-1">{earliest}</p>
+            </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white transition-transform duration-500 group-hover:-translate-y-2 group-hover:translate-x-2 group-hover:bg-white group-hover:text-black">
+              <ArrowUpRight className="h-5 w-5" />
+            </div>
           </div>
         </div>
-        <div className="mt-8 grid gap-4 border-t border-[color:var(--border-subtle)] pt-6 sm:grid-cols-3">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--text-muted)]">評分</p>
-            <p className="mt-2 text-2xl text-[color:var(--text-primary)]">{salon.rating.toFixed(1)}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--text-muted)]">主打設計師</p>
-            <p className="mt-2 text-base text-[color:var(--text-primary)]">{firstStylist.name}</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--text-muted)]">最近空檔</p>
-            <p className="mt-2 text-base text-[color:var(--text-primary)]">{firstStylist.nextAvailable}</p>
-          </div>
-        </div>
-        <div className="mt-6">
-          <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--brand-primary)]">作品集預覽</p>
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {previewShots.map((item) => (
-              <div key={item.id} className="overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--bg-secondary)]">
-                <div
-                  className="aspect-square bg-cover bg-center"
-                  style={{ backgroundImage: `url(${item.image})` }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+
+      </div>
+      
+      {/* Hidden Hover Image Reveal */}
+      <div className="pointer-events-none fixed left-1/2 top-1/2 z-50 h-[400px] w-[300px] -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-500 group-hover:opacity-100 hidden lg:block shadow-2xl">
+        <img src={salon.coverImage} alt={salon.name} className="h-full w-full object-cover" />
       </div>
     </Link>
   );

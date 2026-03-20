@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 
+import { Footer } from "@/components/footer";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -27,8 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-Hant">
-      <body className={`${display.variable} ${body.variable} bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] antialiased`}>
+      <body className={`${display.variable} ${body.variable} bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] antialiased flex flex-col min-h-screen`}>
         {children}
+        <Footer />
       </body>
     </html>
   );
